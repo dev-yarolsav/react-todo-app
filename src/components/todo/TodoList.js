@@ -1,113 +1,97 @@
-import React, {useState} from "react";
+import React, {useMemo, useReducer, useState} from "react";
 
 import TodoItem from "./TodoItem";
+import TodoForm from "./TodoForm";
+// import sleep from "../../utils/sleep";
 
-function TodoList() {
-
-    console.log('todolist...');
-
-    const [form, setForm] = useState({
-        desc: ''
-    })
-
-    const [items, setItems] = useState({
-        list: [1, 2, 3],
-        entities: {
-            1: {id:1, desc: 'todo #1', done: false},
-            2: {id:2, desc: 'todo #2', done: true},
-            3: {id:3, desc: 'todo #3', done: false},
-        }
-    })
-
-    // Form:
-
-    const onChangeDesc = e => {
-        setForm({
-            desc: e.target.value
-        })
+const initState = () => ({
+    is: {
+        adding: false,
+    },
+    list: ["1", "2", "3"],
+    entities: {
+        "1": {id:"1", desc: 'todo #1', done: false},
+        "2": {id:"2", desc: 'todo #2', done: true},
+        "3": {id:"3", desc: 'todo #3', done: false},
     }
+});
 
-    const canSubmitForm = () => form.desc.length > 2;
-
-    const onSubmitForm = e => {
-        e.preventDefault();
-
-        if(canSubmitForm()) {
-            const nextId = items.list.length + 1;
-            setItems({
-                ...items,
-                list: [...items.list, nextId],
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'add':
+            const {description} = action.payload;
+            const nextId = state.list.length + 1;
+            return {
+                ...state,
+                list: [...state.list, nextId],
                 entities: {
-                    ...items.entities,
+                    ...state.entities,
                     [nextId]: {
-                        id: nextId, desc: form.desc, done: false
+                        id: nextId, desc: description, done: false
                     }
                 }
-            })
-            setForm({
-                desc: ''
-            })
-        }
-    }
-
-    // List...
-
-
-    const toggleCompleted = (id) => {
-        console.log('toggleCompleted', id)
-        setItems({
-            ...items,
-            entities: {
-                ...items.entities,
-                [id]: {
-                    ...items.entities[id],
-                    done: !items.entities[id].done
+            };
+        case 'toggle_complete': {
+            const {id} = action.payload;
+            return {
+                ...state,
+                entities: {
+                    ...state.entities,
+                    [id]: {
+                        ...state.entities[id],
+                        done: !state.entities[id].done
+                    }
                 }
-            }
-        })
+            };
+        }
+        case 'remove': {
+            const {id} = action.payload;
+            return {
+                ...state,
+                list: state.list.filter(i => i !== id),
+            };
+        }
+        default:
+            throw new Error();
+    }
+}
+
+// const listItems = state => state.list.map(id => state.entities[id])
+
+export default function TodoList () {
+    const [state, dispatch] = useReducer(reducer, null, initState);
+
+    const handleAdd = (data) => {
+        dispatch({type: 'add', payload: data});
     }
 
-    const remove = id => {
-        console.log('remove', id)
-        const newEntities = {...items.entities}
-        delete newEntities[id];
-        setItems({
-            ...items,
-            list: items.list.filter(_id => _id !== id),
-            entities: newEntities
-        })
+    const handleToggleCompleted = (id) => () => {
+        dispatch({type: 'toggle_complete', payload: {id}});
     }
 
-    const todos = () => {
-        console.log('todos')
-        return items.list.map(id => items.entities[id]);
+    const handleRemove = (id) => () => {
+        dispatch({type: 'remove', payload: {id}});
     }
 
-    const listItems = todos().map(todo =>
-        <TodoItem key={todo.id} item={todo} toggleCompleted={toggleCompleted} remove={remove}/>)
+    const todoItems = state.list.map(id => state.entities[id])
 
     return (
-        <div>
-            <div className={'card'}>
-                <div className={'card-header'}>
-                    Add todo
-                </div>
-                <div className={'card-body'}>
-                    <form onSubmit={onSubmitForm}>
-                        <div className="input-group">
-                            <input value={form.desc} onChange={onChangeDesc} type="text" className="form-control" placeholder="What to do?"/>
-                            <div className="input-group-append">
-                                <button disabled={!canSubmitForm()} className="btn btn-primary" type="submit">add</button>
-                            </div>
-                        </div>
-                    </form>
+        <div className="todo-list">
+            <div className="card">
+                <div className="card-header">Add todo</div>
+                <div className="card-body">
+                    <TodoForm onSubmit={handleAdd} isSaving={state.is.adding}/>
                 </div>
             </div>
-            <ul className={'list-group mt-2'}>
-                {listItems}
+            <ul className="list-group mt-2">
+                {
+                    todoItems.map(({id, desc, done}) =>
+                        <TodoItem key={id} description={desc} isCompleted={done}
+                                  className="list-group-item"
+                                  onToggleCompleted={handleToggleCompleted(id)}
+                                  onRemove={handleRemove(id)}/>)
+                }
             </ul>
         </div>
     );
 }
-
-export default TodoList;
