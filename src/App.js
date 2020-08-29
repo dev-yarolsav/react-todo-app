@@ -1,16 +1,13 @@
 import React from 'react';
 import './App.css';
 
-import TodoList from "./components/todo/TodoList";
+import TodoListPage from "./pages/TodoListPage";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        Header
-      </header>
       <div>
-        <TodoList/>
+        <TodoListPage/>
       </div>
     </div>
   );
