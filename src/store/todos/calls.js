@@ -20,7 +20,7 @@ export const fetchLoadTodos = async ({dispatch, store}) => {
 }
 
 export const submitAddTodo = async ({dispatch, store}, formData) => {
-    if(getLoadingStatus(store, ADD_TODO)) {
+    if(getLoadingStatus(store.getState(), ADD_TODO)) {
         return null;
     }
 
@@ -38,7 +38,7 @@ export const submitAddTodo = async ({dispatch, store}, formData) => {
 }
 
 export const postToggleTodo = async ({dispatch, store}, {id, completed}) => {
-    if(getLoadingStatus(store, [TOGGLE_TODO, id])) {
+    if(getLoadingStatus(store.getState(), [TOGGLE_TODO, id])) {
         return null;
     }
 
@@ -53,7 +53,7 @@ export const postToggleTodo = async ({dispatch, store}, {id, completed}) => {
 }
 
 export const postRemoveTodo = async ({dispatch, store}, id) => {
-    if(getLoadingStatus(store, [REMOVE_TODO, id])) {
+    if(getLoadingStatus(store.getState(), [REMOVE_TODO, id])) {
         return null;
     }
 

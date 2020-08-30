@@ -4,23 +4,18 @@ import TodoForm from "../components/todo/TodoForm";
 import {useDispatch, useSelector, useStore} from "react-redux";
 
 import {fetchLoadTodos, submitAddTodo, postRemoveTodo, postToggleTodo} from "../store/todos/calls";
-import {getTodos, getTodosLoaders} from "../store/todos/selectors";
-import {getUserLoggedInId} from "../store/user/selectors";
-
+import {TodoListPageStateSelector} from "../store/selectors";
 
 export default function TodoListPage () {
     const store = useStore()
     const dispatch = useDispatch()
-
-    const userId = useSelector(getUserLoggedInId)
-    const todos = useSelector(getTodos);
-    const {isLoading, isAdding} = useSelector(getTodosLoaders);
+    const {userId, todos, isLoading, isAdding} = useSelector(TodoListPageStateSelector);
 
     useEffect(() => void fetchLoadTodos({dispatch, store}), [dispatch, store, userId])
 
-    const handleAdd    = data            => submitAddTodo({dispatch, store}, data)
+    const handleAdd = data => submitAddTodo({dispatch, store}, data)
     const handleToggle = (id, completed) => () => postToggleTodo({dispatch, store}, {id, completed: !completed})
-    const handleRemove = id              => () => postRemoveTodo({dispatch, store}, id)
+    const handleRemove = id => () => postRemoveTodo({dispatch, store}, id)
 
     return (
         <div>
