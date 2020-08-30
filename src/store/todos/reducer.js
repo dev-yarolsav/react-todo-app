@@ -1,4 +1,5 @@
 import {ADD_TODO, LOAD_TODOS, REMOVE_TODO, TOGGLE_TODO} from "./actions";
+import {START_LOADING, STOP_LOADING} from "../loading/actions";
 
 const initialState = {
     list: [],
@@ -46,6 +47,22 @@ export default (state = initialState, action) => {
                     }
                 }
             };
+        }
+        case START_LOADING:
+        case STOP_LOADING: {
+            const { loadingKey } = action.payload;
+            const [actionType, id] = loadingKey;
+            const isLoading = action.type === START_LOADING;
+
+            if(actionType === TOGGLE_TODO) {
+                const isToggling = isLoading
+                return {...state, entities: {...state.entities, [id]: {...state.entities[id], isToggling}}};
+            } else if(actionType === REMOVE_TODO) {
+                const isRemoving = isLoading
+                return {...state, entities: {...state.entities, [id]: {...state.entities[id], isRemoving}}};
+            }
+
+            return state;
         }
         case REMOVE_TODO: {
             const { id } = action.payload;
