@@ -7,7 +7,8 @@ export default function TodoItem({className, description, isCompleted, onToggleC
     return (
         <div className={'d-flex align-items-center ' + (className || '')}>
             <div className="mr-2">
-                <button className="btn btn-link" onClick={onToggleCompleted}>
+                <button className={cs({'btn btn-link': true, 'text-muted': isCompleted})}
+                        onClick={() => onToggleCompleted(isCompleted)}>
                     <FontAwesomeIcon icon={isCompleted ? faCheckSquare : faSquare} />
                 </button>
             </div>

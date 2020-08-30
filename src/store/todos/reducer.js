@@ -1,22 +1,26 @@
-import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from "../actionTypes";
+import {ADD_TODO, LOAD_TODOS, REMOVE_TODO, TOGGLE_TODO} from "./actions";
 
 const initialState = {
-    list: ["1"],
-    entities: {
-        "1": {
-            text: "todo.",
-            completed: false
-        }
-    }
+    list: [],
+    entities: {},
 };
 
-const getNextId = state => state.list.length + 1 + '';
-
-export default function(state = initialState, action) {
+export default (state = initialState, action) => {
     switch (action.type) {
+        case LOAD_TODOS: {
+            const { items } = action.payload;
+
+            return {
+                ...state,
+                list: items.map(i => i.id),
+                entities: items.reduce((acc, val) => {
+                    acc[val.id] = val;
+                    return acc;
+                }, {})
+            };
+        }
         case ADD_TODO: {
-            const id = getNextId(state);
-            const { text } = action.payload;
+            const { id, text, completed } = action.payload;
             return {
                 ...state,
                 list: [...state.list, id],
@@ -24,20 +28,21 @@ export default function(state = initialState, action) {
                     ...state.entities,
                     [id]: {
                         text,
-                        completed: false
+                        completed: completed || false
                     }
                 }
             };
         }
         case TOGGLE_TODO: {
-            const { id } = action.payload;
+            const { id, completed } = action.payload;
+
             return {
                 ...state,
                 entities: {
                     ...state.entities,
                     [id]: {
                         ...state.entities[id],
-                        completed: !state.entities[id].completed
+                        completed: completed
                     }
                 }
             };
