@@ -3,13 +3,13 @@ import cs from "classnames"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquare, faCheckSquare, faTrash, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
-export default function TodoItem({className, description, isCompleted, onToggleCompleted, isToggling, onRemove, isRemoving}) {
+export default function TodoItem({className, description, isCompleted, onToggle, isToggling, onRemove, isRemoving}) {
     return (
         <div className={'d-flex align-items-center ' + (className || '')}>
             <div className="mr-2">
                 <button className={cs({'btn btn-link': true, 'text-muted': isCompleted})}
                         disabled={isToggling}
-                        onClick={() => onToggleCompleted(isCompleted)}>
+                        onClick={onToggle}>
                     <FontAwesomeIcon icon={isToggling ? faCircleNotch : (isCompleted ? faCheckSquare : faSquare)}
                                      spin={isToggling} />
                 </button>

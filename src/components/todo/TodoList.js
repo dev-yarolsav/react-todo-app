@@ -18,7 +18,7 @@ export default function TodoList ({ items, onToggle, onRemove, isLoading, errorT
                 { items.map(({id, text, completed, isToggling, isRemoving}) =>
                         <TodoItem key={id} description={text} isCompleted={completed}
                                   className="list-group-item"
-                                  onToggleCompleted={onToggle(id, completed)}
+                                  onToggle={onToggle(id, completed)}
                                   isToggling={isToggling}
                                   isRemoving={isRemoving}
                                   onRemove={onRemove(id)}/>) }
