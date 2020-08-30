@@ -6,7 +6,7 @@ import {useDispatch, useSelector, useStore} from "react-redux";
 import {fetchLoadTodos, submitAddTodo, postRemoveTodo, postToggleTodo} from "../store/todos/calls";
 import {TodoListPageStateSelector} from "../store/selectors";
 
-export default function TodoListPage () {
+export default function TodoPage () {
     const store = useStore()
     const dispatch = useDispatch()
     const {userId, todos, isLoading, isAdding} = useSelector(TodoListPageStateSelector);

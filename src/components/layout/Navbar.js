@@ -1,20 +1,24 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import NavbarItem from "./NavbarItem";
+import {Link, useHistory} from "react-router-dom";
 
 export default function Navbar () {
+    let history = useHistory();
 
-    const [showNav, setShowNav] = useState(false);
+    useEffect(() => {
+        return history.listen((location) => {
+            console.log(`You changed the page to: ${location.pathname}`)
+        })
+    }, [history])
 
     return (
-        <nav className="navbar navbar-light bg-light">
-            <a className="navbar-brand" href="/">Navbar</a>
-            <button className="navbar-toggler" type="button" onClick={() => setShowNav(!showNav)}>
-                <span className="navbar-toggler-icon"/>
-            </button>
-            <div className={'navbar-collapse collapse' + (showNav ? ' show' : '')}>
-                <ul className="navbar-nav">
-                    <NavbarItem to='/' label="Home"/>
-                    <NavbarItem to='/todo' label="Todo"/>
+        <nav className="navbar navbar-light bg-light px-0 border-bottom">
+            <div className="container">
+                <Link className="navbar-brand" to="/">Navbar</Link>
+                <ul className="navbar-nav d-flex flex-row">
+                    <NavbarItem className="ml-2" to='/' label="Home"/>
+                    <NavbarItem className="ml-2" to='/todo' label="Todo"/>
+                    <NavbarItem className="ml-2" to='/posts' label="Posts" isExact={false}/>
                 </ul>
             </div>
         </nav>

@@ -6,7 +6,7 @@ export default function TodoList ({ items, onToggle, onRemove, isLoading, errorT
     return (
         <div className="todo-list">
             {
-                isLoading && <div className="text-center p-3 text-muted">Loading...</div>
+                isLoading && !items.length && <div className="text-center p-3 text-muted">Loading...</div>
             }
             {
                 !isLoading && !items.length && <div className="text-center p-3 text-info">There are no todos yet</div>
