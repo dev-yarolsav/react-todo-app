@@ -1,8 +1,14 @@
 import {getAllTodos, updateTodo, createTodo, deleteTodo} from "../../api/todos";
 import {addTodo, loadTodos, toggleTodo, LOAD_TODOS, ADD_TODO, TOGGLE_TODO, removeTodo, REMOVE_TODO} from "./actions";
 import {startLoading, stopLoading} from "../loading/actions";
+import {getLoadingStatus} from "../loading/selectors";
 
-export const fetchLoadTodos = () => async (dispatch) => {
+export const fetchLoadTodos = () => async (dispatch, store) => {
+
+    if(getLoadingStatus(store, LOAD_TODOS)) {
+        return null;
+    }
+
     dispatch(startLoading(LOAD_TODOS));
     try {
         const {data} = await getAllTodos();

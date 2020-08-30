@@ -11,12 +11,8 @@ export default (state = {}, action) => {
 
     const key = (loadingKey instanceof Array) ? loadingKey.join('.') : loadingKey;
 
-    const nextState = {
+    return {
         ...state,
         [key]: type === START_LOADING,
     };
-
-    console.log(nextState);
-
-    return nextState;
 };
