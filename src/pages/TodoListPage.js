@@ -4,18 +4,18 @@ import {useDispatch, useSelector, useStore} from "react-redux";
 
 import {fetchLoadTodos, submitAddTodo, postRemoveTodo, postToggleTodo} from "../store/todos/calls";
 import {getTodos, getTodosLoaders} from "../store/todos/selectors";
+import {getUserLoggedInId} from "../store/user/selectors";
 
 
 export default function TodoListPage () {
     const store = useStore()
     const dispatch = useDispatch()
 
-    useEffect(() => void fetchLoadTodos({dispatch, store}), [
-        // TODO: get logged-in user_id from store ???
-    ])
-
+    const userId = useSelector(getUserLoggedInId)
     const todos = useSelector(getTodos);
     const {isLoading, isAdding} = useSelector(getTodosLoaders);
+
+    useEffect(() => void fetchLoadTodos({dispatch, store}), [dispatch, store, userId])
 
     const handleAdd    = data            => submitAddTodo({dispatch, store}, data)
     const handleToggle = (id, completed) => postToggleTodo({dispatch, store}, {id, completed: !completed})
