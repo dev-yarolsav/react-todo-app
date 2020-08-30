@@ -12,7 +12,7 @@ export default function TodoListPage () {
     const store = useStore()
     const dispatch = useDispatch()
 
-    useEffect(() => void fetchLoadTodos()(dispatch, store), [
+    useEffect(() => void fetchLoadTodos({dispatch, store}), [
         // TODO: get logged-in user_id from store ???
     ])
 
@@ -20,9 +20,9 @@ export default function TodoListPage () {
     const isLoading = useSelector(state => getLoadingStatus(state, LOAD_TODOS));
     const isAdding  = useSelector(state => getLoadingStatus(state, ADD_TODO));
 
-    const handleAdd    = data            => submitAddTodo(data)(dispatch)
-    const handleToggle = (id, completed) => postToggleTodo(id, !completed)(dispatch)
-    const handleRemove = id              => postRemoveTodo(id)(dispatch)
+    const handleAdd    = data            => submitAddTodo({dispatch, store}, data)
+    const handleToggle = (id, completed) => postToggleTodo({dispatch, store}, {id, completed: !completed})
+    const handleRemove = id              => postRemoveTodo({dispatch, store}, id)
 
     //const isToggling = id => useSelector(state => getLoadingStatus(state, LOAD_TODOS));
 

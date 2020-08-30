@@ -3,7 +3,7 @@ import {addTodo, loadTodos, toggleTodo, LOAD_TODOS, ADD_TODO, TOGGLE_TODO, remov
 import {startLoading, stopLoading} from "../loading/actions";
 import {getLoadingStatus} from "../loading/selectors";
 
-export const fetchLoadTodos = () => async (dispatch, store) => {
+export const fetchLoadTodos = async ({dispatch, store}) => {
 
     if(getLoadingStatus(store, LOAD_TODOS)) {
         return null;
@@ -19,7 +19,11 @@ export const fetchLoadTodos = () => async (dispatch, store) => {
     dispatch(stopLoading(LOAD_TODOS));
 }
 
-export const submitAddTodo = formData => async (dispatch) => {
+export const submitAddTodo = async ({dispatch, store}, formData) => {
+    if(getLoadingStatus(store, ADD_TODO)) {
+        return null;
+    }
+
     dispatch(startLoading(ADD_TODO));
     try {
         const {data} = await createTodo({
@@ -33,7 +37,11 @@ export const submitAddTodo = formData => async (dispatch) => {
     dispatch(stopLoading(ADD_TODO));
 }
 
-export const postToggleTodo = (id, completed) => async (dispatch) => {
+export const postToggleTodo = async ({dispatch, store}, {id, completed}) => {
+    if(getLoadingStatus(store, [TOGGLE_TODO, id])) {
+        return null;
+    }
+
     dispatch(startLoading([TOGGLE_TODO, id]));
     try {
         const {data} = await updateTodo(id, {completed});
@@ -44,7 +52,11 @@ export const postToggleTodo = (id, completed) => async (dispatch) => {
     dispatch(stopLoading([TOGGLE_TODO, id]));
 }
 
-export const postRemoveTodo = (id) => async (dispatch) => {
+export const postRemoveTodo = async ({dispatch, store}, id) => {
+    if(getLoadingStatus(store, [REMOVE_TODO, id])) {
+        return null;
+    }
+
     dispatch(startLoading([REMOVE_TODO, id]));
     try {
         await deleteTodo(id);
