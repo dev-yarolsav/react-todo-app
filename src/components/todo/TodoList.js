@@ -15,12 +15,11 @@ export default function TodoList ({ items, onToggle, onRemove, isLoading, errorT
                 !isLoading && errorText && <div className="text-center p-3 text-error">{errorText}</div>
             }
             <ul className="list-group">
-                { items.map(({id, text, completed, isToggling, isRemoving}) =>
+                { items.map(({id, text, completed}) =>
                         <TodoItem key={id} description={text} isCompleted={completed}
                                   className="list-group-item"
+                                  id={id}
                                   onToggle={onToggle(id, completed)}
-                                  isToggling={isToggling}
-                                  isRemoving={isRemoving}
                                   onRemove={onRemove(id)}/>) }
             </ul>
         </div>

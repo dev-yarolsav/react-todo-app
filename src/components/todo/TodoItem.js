@@ -2,8 +2,15 @@ import React from "react"
 import cs from "classnames"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquare, faCheckSquare, faTrash, faCircleNotch } from '@fortawesome/free-solid-svg-icons'
+import {useIsLoading} from "../../hooks/useIsLoading";
 
-export default function TodoItem({className, description, isCompleted, onToggle, isToggling, onRemove, isRemoving}) {
+import {REMOVE_TODO, TOGGLE_TODO} from "../../store/todos/actions";
+
+export default function TodoItem({className, id, description, isCompleted, onToggle, onRemove}) {
+
+    const isToggling = useIsLoading([TOGGLE_TODO, id])
+    const isRemoving = useIsLoading([REMOVE_TODO, id])
+
     return (
         <div className={'d-flex align-items-center ' + (className || '')}>
             <div className="mr-2">
