@@ -1,5 +1,7 @@
 import {arr2map} from "../../utils/arr2map";
 
+const SET_ENTITY = 'SET_ENTITY'
+
 const initialState = {
     posts: {},
     todos: {},

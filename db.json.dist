@@ -1,0 +1,17 @@
+{
+  "todos": [
+    {
+      "completed": false,
+      "text": "Start mock server",
+      "id": 1
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "username": "admin",
+      "password": "admin"
+    }
+  ]
+}

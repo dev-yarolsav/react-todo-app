@@ -22,6 +22,6 @@ apiClient.interceptors.response.use((response) =>
     },
 );
 
-const { get, post, put, delete: del } = apiClient;
+const { get, post, put, patch, delete: remove } = apiClient;
 
-export { get, post, put, del };
+export { get, post, put, patch, remove };

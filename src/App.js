@@ -8,6 +8,17 @@ import PostsPage from "./pages/PostsPage";
 import PostsViewPage from "./pages/PostsViewPage";
 
 import {Switch, Route} from "react-router-dom";
+import styled from "styled-components";
+
+const Div = styled.div`
+padding: 1em;
+color: gray;
+font-style: italic;
+`
+
+const SmallerDiv = styled(Div)`
+font-size: 10px;
+`
 
 function App() {
     return (
@@ -22,6 +33,11 @@ function App() {
                     <Route render={() => <h1>404: page not found</h1>} />
                 </Switch>
             </div>
+            <Div>
+                This is styled-component!
+                <SmallerDiv>This is smaller styled-component!</SmallerDiv>
+            </Div>
+
         </div>
     );
 }
