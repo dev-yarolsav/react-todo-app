@@ -1,4 +1,4 @@
-import {getAllTodos, updateTodo, createTodo, deleteTodo} from "../../api/todos";
+import {getAllTodos, updateTodo, createTodo, deleteTodo} from "../../services/todos";
 import {addTodo, loadTodos, toggleTodo, LOAD_TODOS, ADD_TODO, TOGGLE_TODO, removeTodo, REMOVE_TODO} from "./actions";
 import {startLoading, stopLoading} from "../loading/actions";
 import {getLoadingStatus} from "../loading/selectors";

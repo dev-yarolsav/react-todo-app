@@ -15,13 +15,23 @@ apiClient.interceptors.request.use((config) => {
     error => Promise.reject(error),
 );
 
-apiClient.interceptors.response.use((response) =>
-    response,
+apiClient.interceptors.response.use(
+    (response) => response,
     async (error) => {
-        return Promise.reject(error.response.data);
+        console.log(error)
+        return Promise.reject(error);
     },
 );
 
 const { get, post, put, patch, delete: remove } = apiClient;
 
-export { get, post, put, patch, remove };
+
+class HttpValidationErrors extends Error {
+    constructor(props, errors) {
+        super(props);
+
+        this.errors = errors;
+    }
+}
+
+export { get, post, put, patch, remove, HttpValidationErrors };
