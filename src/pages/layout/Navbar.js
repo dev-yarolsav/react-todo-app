@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 import BaseNavbarLinkItem from "components/base/navbar/BaseNavbarLinkItem";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSignOutAlt, faCircleNotch} from "@fortawesome/free-solid-svg-icons";
+import {faSignOutAlt, faCircleNotch, faUser} from "@fortawesome/free-solid-svg-icons";
 
 import {useIsLoggedIn} from "hooks/user/useIsLoggedIn";
 import {useSelector} from "react-redux";
@@ -27,6 +27,9 @@ export default function Navbar () {
                                     <BaseNavbarLinkItem className="ml-2" to='/' label="Home"/>
                                     <BaseNavbarLinkItem className="ml-2" to='/todo' label="Todo"/>
                                     <BaseNavbarLinkItem className="ml-2" to='/posts' label="Posts" isExact={false}/>
+                                    <BaseNavbarLinkItem className="ml-3" to='/profile'>
+                                        <FontAwesomeIcon icon={faUser}/>
+                                    </BaseNavbarLinkItem>
                                     <div className="border-right ml-3 mr-2"/>
                                     <BaseNavbarLinkItem className="ml-2" to='/logout'>
                                         <FontAwesomeIcon icon={isLoggingOut ? faCircleNotch : faSignOutAlt}/>
@@ -35,7 +38,6 @@ export default function Navbar () {
                             :
                                 <BaseNavbarLinkItem className="ml-2" to='/login' label="Login"/>
                     }
-
                 </ul>
             </div>
         </nav>

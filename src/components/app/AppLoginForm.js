@@ -1,5 +1,6 @@
 import React from "react";
 import {useSelector} from "react-redux";
+import {Link} from "react-router-dom";
 
 import {getAppLoginForm} from "../../store/app/selectors";
 
@@ -7,6 +8,7 @@ import {handleLoginFormChange, handleLoginFormSubmit} from "../../store/app/hand
 import BaseFormInput from "../base/form/BaseFormInput";
 import BaseButton from "../base/BaseButton";
 import BaseForm from "../base/form/BaseForm";
+import {SignupPath} from "../../routes";
 
 export default function AppLoginForm () {
     const {isSubmitting, error, fields, errors} = useSelector(getAppLoginForm);
@@ -33,6 +35,7 @@ export default function AppLoginForm () {
             </div>
             {error && <div className="text-danger">{error}</div>}
             <div className="text-right">
+                <Link className="btn btn-link" to={SignupPath()}>Signup</Link>
                 <BaseButton isLoading={isSubmitting} type="submit" label="Login" styleName="primary"/>
             </div>
         </BaseForm>

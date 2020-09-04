@@ -1,31 +1,31 @@
 import {createFormReducer, createFormState} from "utils/form";
-import {APP_LOGIN_FORM} from "./enums";
+import {APP_LOGIN_FORM, APP_SIGNUP_FORM} from "./enums";
 import {APP_LOGIN_USER, APP_LOGOUT_USER} from "./actions";
-
-const getRememberedUserId = () => {
-    return +window.localStorage.getItem('userId') || null;
-}
-const rememberUserId = (id) => {
-    window.localStorage.setItem('userId', id)
-}
+import {freeze, unfreeze} from "../../utils/freeze";
 
 const initialState = {
-    userId: getRememberedUserId(),
+    userId: unfreeze('userId'),
     loginForm: createFormState({
-        login: '',
-        password: '',
+        login: 'admin',
+        password: 'admin',
         rememberMe: true
+    }),
+    signupForm: createFormState({
+        name: '',
+        username: '',
+        password: '',
     }),
 };
 
 const loginForm = createFormReducer(APP_LOGIN_FORM);
+const signupForm = createFormReducer(APP_SIGNUP_FORM);
 
 const userId = (state, action) => {
     if(action.type === APP_LOGIN_USER) {
-        rememberUserId(action.payload.id)
+        freeze('userId', action.payload.id)
         return action.payload.id;
     } else if(action.type === APP_LOGOUT_USER) {
-        rememberUserId(null)
+        freeze('userId', null)
         return null;
     } else {
         return state;
@@ -34,5 +34,6 @@ const userId = (state, action) => {
 
 export default (state = initialState, action) => ({
     userId: userId(state.userId, action),
-    loginForm: loginForm(state.loginForm, action)
+    loginForm: loginForm(state.loginForm, action),
+    signupForm: signupForm(state.signupForm, action),
 })

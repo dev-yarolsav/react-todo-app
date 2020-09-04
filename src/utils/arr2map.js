@@ -3,10 +3,10 @@ export const arr2map = (array, handler, key = 'id') => {
 
         const data = handler(item);
 
-        delete data[data.key]
+        delete data[data[key]]
 
-        acc[data.key] = data
+        acc[data[key]] = data
 
         return acc;
-    })
+    }, {})
 }
