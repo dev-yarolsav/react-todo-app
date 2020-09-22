@@ -15,6 +15,11 @@ const initialState = {
         username: '',
         password: '',
     }),
+    pages: {
+        todo: {
+            list: []
+        }
+    }
 };
 
 const loginForm = createFormReducer(APP_LOGIN_FORM);
@@ -32,8 +37,15 @@ const userId = (state, action) => {
     }
 }
 
+const todoPage = (state, action) => {
+    return state
+}
+
 export default (state = initialState, action) => ({
     userId: userId(state.userId, action),
     loginForm: loginForm(state.loginForm, action),
     signupForm: signupForm(state.signupForm, action),
+    pages: {
+        todo: todoPage(state.pages.todo, action)
+    }
 })

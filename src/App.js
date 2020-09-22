@@ -16,9 +16,7 @@ export default function App() {
     const user = useLoggedInUser();
     const isLoading = useSelector(getIsLoadingLoggedInUser)
 
-    useEffect(() => {
-        loadLoggedInUser(store)
-    }, [userId, store])
+    useEffect(() => void loadLoggedInUser(store), [userId, store])
 
     return (
         <div className="App">

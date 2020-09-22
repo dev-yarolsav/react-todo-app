@@ -1,5 +1,6 @@
 import {ADD_TODO, LOAD_TODOS, REMOVE_TODO, TOGGLE_TODO} from "./actions";
 import {START_LOADING, STOP_LOADING} from "../loading/actions";
+import {APP_LOGIN_USER} from "../app/actions";
 
 const initialState = {
     list: [],
@@ -8,6 +9,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case APP_LOGIN_USER: {
+            return {
+                ...initialState
+            };
+        }
         case LOAD_TODOS: {
             const { items } = action.payload;
 

@@ -9,9 +9,7 @@ export default function AppLogoutPage() {
     const userId = useLoggedInUserId();
     const store = useStore()
 
-    useEffect(() => {
-        handleAppLogout(store)
-    }, [userId, store])
+    useEffect(() => void handleAppLogout(store), [userId, store])
 
     return (
         <div>

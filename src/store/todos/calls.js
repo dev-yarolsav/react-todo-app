@@ -2,6 +2,19 @@ import {getAllTodos, updateTodo, createTodo, deleteTodo} from "../../services/to
 import {addTodo, loadTodos, toggleTodo, LOAD_TODOS, ADD_TODO, TOGGLE_TODO, removeTodo, REMOVE_TODO} from "./actions";
 import {startLoading, stopLoading} from "../loading/actions";
 import {getLoadingStatus} from "../loading/selectors";
+import {todoService} from "../../services/todo.service";
+import {getAppUserId} from "../app/selectors";
+import {setTodos} from "../entities/actions";
+
+export const loadTodosByUser = async ({dispatch, store}, userId) => {
+    try {
+        const {data} = await todoService.all({user_id: 2});
+        dispatch(setTodos({items: data}));
+        dispatch(loadTodos(data));
+    } catch (err) {
+        // TODO: handle error
+    }
+}
 
 export const fetchLoadTodos = async ({dispatch, store}) => {
 
@@ -24,11 +37,14 @@ export const submitAddTodo = async ({dispatch, store}, formData) => {
         return null;
     }
 
+    const userId = getAppUserId(store.getState())
+
     dispatch(startLoading(ADD_TODO));
     try {
         const {data} = await createTodo({
             completed: false,
             ...formData,
+            user_id: userId
         });
         dispatch(addTodo(data.id, data));
     } catch (err) {
